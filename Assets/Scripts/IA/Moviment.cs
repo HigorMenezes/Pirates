@@ -7,7 +7,7 @@ using UnityEngine;
 public class Moviment {
 
 	public enum MoveType {
-		atack,
+		attack,
 		move
 	};
 

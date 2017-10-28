@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-	public GameObject prefab;
+	public GameObject prefabMove;
+	public GameObject prefabAttack;
 
 	private GameObject objToMove;
 	private GameObject moveAt;
@@ -13,22 +14,25 @@ public class PlayerController : MonoBehaviour {
 	private ArrayList objDiscart = new ArrayList();
 
 	private bool flag = true;
+	public static bool myTurn = true;
 
 	void Start () {
 		
 	}
-
-
+		
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Mouse0) && flag) {
 			destroiObj ();
 			flag = false;
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			if (Physics.Raycast (ray, out hit)) {
-				if (hit.collider.tag.Equals ("Player")) {
+				if (hit.collider.tag.Equals (this.tag)) {
 					objToMove = hit.transform.gameObject;
 					calculaMovimentos ();
-				}else if (hit.collider.tag.Equals ("Move")) {
+				} else if (hit.collider.tag.Equals ("Move")) {
+					moveAt = hit.transform.gameObject;
+					moverObj ();
+				} else if (hit.collider.tag.Equals ("Attack")) {
 					moveAt = hit.transform.gameObject;
 					moverObj ();
 				}
@@ -43,8 +47,13 @@ public class PlayerController : MonoBehaviour {
 		Vector2 pos = new Vector2 (hit.transform.position.x, hit.transform.position.y);
 		ArrayList moviments = MovimentCalculater.calculaMovimento (TabuleiroController.tabuleiro.matrizTabuleiro, pos, 9);
 		foreach (Moviment moviment in moviments) {
-			Vector3 pos2 = new Vector3(moviment.pos.x, moviment.pos.y, -0.41f);
-			objDiscart.Add(Instantiate (prefab, pos2, Quaternion.Euler(0f,0f,0f)));
+			if (moviment.moveType == Moviment.MoveType.move) {
+				Vector3 pos2 = new Vector3 (moviment.pos.x, moviment.pos.y, -0.41f);
+				objDiscart.Add (Instantiate (prefabMove, pos2, Quaternion.Euler (0f, 0f, 0f)));
+			} else if (moviment.moveType == Moviment.MoveType.attack) {
+				Vector3 pos2 = new Vector3 (moviment.pos.x, moviment.pos.y, -1.41f);
+				objDiscart.Add (Instantiate (prefabAttack, pos2, Quaternion.Euler (0f, 0f, 0f)));
+			}
 		}
 
 	}
@@ -70,5 +79,11 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	void OnTriggerEnter(Collider collider) {
+		Debug.Log ("ENTROU");
+		if (myTurn) {
+			Destroy (collider.gameObject);
+		}
+	}
 
 }

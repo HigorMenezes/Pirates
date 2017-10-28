@@ -31,6 +31,27 @@ public class MovimentCalculater {
 			moviments.Add(new Moviment(new Vector2(x - 1, y), Moviment.MoveType.move));
 		}
 			
+		if ((y + 1) >= 0 && (y + 1) < Tabuleiro.COLUNA 
+			&& (x - 1) >= 0 && (x - 1) < Tabuleiro.LINHA
+			&& matriz[x - 1, y + 1] == enemy){ // DIREITA CIMA
+			moviments.Add(new Moviment(new Vector2(x - 1, y + 1), Moviment.MoveType.attack));
+		}
+		if ((y + 1) >= 0 && (y + 1) < Tabuleiro.COLUNA 
+			&& (x + 1) >= 0 && (x + 1) < Tabuleiro.LINHA
+			&& matriz[x + 1, y + 1] == enemy){ // DIREITA BAIXO
+			moviments.Add(new Moviment(new Vector2(x + 1, y + 1), Moviment.MoveType.attack));
+		}
+		if ((y - 1) >= 0 && (y - 1) < Tabuleiro.COLUNA 
+			&& (x - 1) >= 0 && (x - 1) < Tabuleiro.LINHA
+			&& matriz[x - 1, y - 1] == enemy){ // ESQUERDA CIMA
+			moviments.Add(new Moviment(new Vector2(x - 1, y - 1), Moviment.MoveType.attack));
+		}
+		if ((y - 1) >= 0 && (y - 1) < Tabuleiro.COLUNA 
+			&& (x + 1) >= 0 && (x + 1) < Tabuleiro.LINHA
+			&& matriz[x + 1, y - 1] == enemy){ // ESQUERDA BAIXO
+			moviments.Add(new Moviment(new Vector2(x + 1, y - 1), Moviment.MoveType.attack));
+		}
+
 		return moviments;
 	}
 }
