@@ -5,8 +5,11 @@ using UnityEngine;
 public class DestroyEnemy : MonoBehaviour {
 
 	void OnTriggerEnter(Collider collider) {
-		if (PlayerController.myTurn) {
+		if (GameController.tagAttack.Equals (this.tag)) {
 			Destroy (collider.gameObject);
+			if (collider.tag.Equals("Tesouro")){
+				Debug.Log ("WIN");
+			}
 		}
 	}
 

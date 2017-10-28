@@ -8,7 +8,8 @@ public class Moviment {
 
 	public enum MoveType {
 		attack,
-		move
+		move,
+		win
 	};
 
 	public Vector2 pos { get; set;}
