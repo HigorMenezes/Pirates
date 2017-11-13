@@ -1,45 +1,84 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class GameController : MonoBehaviour {
 
-	public static string turn1 = "Player";
-	public static string turn2 = "Com";
-	public static string currentTurn;
-	public static string tagAttack;
+	public enum Current{
+		Red,
+		Blue,
+		Movement
+	}
+
+	public Text text;
+
+	public static int playerRed = 9;
+	public static int treasureRed = 8;
+	public static int playerBlue = 1;
+	public static int treasureBlue = 2;
+
+
+
+	public static Current currentTurn;
+	public static Current previousCurrent;
+	public static Table table = new Table();
 
 
 	void Start () {
-		if (Random.Range (0, 2) % 2 == 0) 
-			currentTurn = turn1;
-		else
-			currentTurn = turn2;
-	}
-
-
-	public static void changeTurn () {
-		if (currentTurn.Equals (turn1) && countPlayers(9) > 0) {
-			currentTurn = turn2;
-		} else if (currentTurn.Equals (turn2) && countPlayers(1) > 0) {
-			currentTurn = turn1;
+		switch (Random.Range (0, 2)) {
+		case 0:
+			currentTurn = Current.Blue;
+			break;
+		case 1:
+			currentTurn = Current.Red;
+			break;
 		}
+
+		previousCurrent = currentTurn;
+			
+		table.setTable(defaultTable());
+
 	}
 
-	public static int countPlayers(int player){
-		int[,] m = TabuleiroController.tabuleiro.matrizTabuleiro;
-		int l = Tabuleiro.LINHA;
-		int c = Tabuleiro.COLUNA;
-		int cont = 0;
 
-		for (int i = 0; i < l; i++){
-			for (int j = 0; j < c; j++) {
-				if (m[i,j] == player)
-					cont++;
+	void Update () {
+		debugMatrix ();
+	}
+
+	public static void changeCurrent (){
+		if (previousCurrent.Equals (Current.Blue)) {
+			currentTurn = Current.Red;
+		}else if (previousCurrent.Equals (Current.Red)) {
+			currentTurn = Current.Blue;
+		}
+
+		previousCurrent = currentTurn;
+	}
+
+	public int[,] defaultTable (){
+		return new int[,] {
+			{ 0, 0, 			treasureRed, 	0, 			0 },
+			{ 0, playerRed, 	0, 			playerRed, 	0 },
+			{ 0, 0, 			0, 			0, 			0 },
+			{ 0, 0, 			0, 			0, 			0 },
+			{ 0, 0, 			0, 			0, 			0 },
+			{ 0, playerBlue, 	0, 			playerBlue, 0 },
+			{ 0, 0, 			treasureBlue, 0, 			0 },
+		};
+	}
+
+	public void debugMatrix (){
+		string textMatrix = "";
+		int[,] matrix = table.getTable ();
+		for (int i = 0; i < Table.LINE; i++) {
+			for (int j = 0; j < Table.COLUMN; j++) {
+				textMatrix += "   " + matrix [i, j];
 			}
+			textMatrix += "\n";
 		}
-
-		return cont;
+		text.text = textMatrix;
 	}
 
 }
