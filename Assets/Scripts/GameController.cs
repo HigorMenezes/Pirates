@@ -19,11 +19,9 @@ public class GameController : MonoBehaviour {
 	public static int playerBlue = 1;
 	public static int treasureBlue = 2;
 
-
-
 	public static Current currentTurn;
 	public static Current previousCurrent;
-	public static Table table = new Table();
+	public static Table table = null;
 
 
 	void Start () {
@@ -38,7 +36,7 @@ public class GameController : MonoBehaviour {
 
 		previousCurrent = currentTurn;
 			
-		table.setTable(defaultTable());
+		table = new Table(defaultTable());
 
 	}
 
@@ -71,7 +69,7 @@ public class GameController : MonoBehaviour {
 
 	public void debugMatrix (){
 		string textMatrix = "";
-		int[,] matrix = table.getTable ();
+		int[,] matrix = table.TableMatrix;
 		for (int i = 0; i < Table.LINE; i++) {
 			for (int j = 0; j < Table.COLUMN; j++) {
 				textMatrix += "   " + matrix [i, j];

@@ -59,9 +59,9 @@ public class PlayerController : MonoBehaviour {
 				}
 
 			}
-			if (Input.GetKeyUp (KeyCode.Mouse0)) {
-				flag = true;
-			}
+		}
+		if (Input.GetKeyUp (KeyCode.Mouse0)) {
+			flag = true;
 		}
 	}
 		
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour {
 		movements.Clear ();
 
 		Vector2 from = new Vector2 (pos.x, pos.y);
-		movements = MovementCalculator.movementCalculate (GameController.table.getTable(), from, this.tag);
+		movements = MovementCalculator.movementCalculate (GameController.table.TableMatrix, from, this.tag);
 	
 		foreach(Movement movement in movements){
 			if (movement.MoveType == Movement.Move.move){

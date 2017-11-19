@@ -51,7 +51,7 @@ public class MovementCalculator {
 			&& (x - 1) >= 0 && (x - 1) < Table.LINE){
 			if (matrix [x - 1, y] == 0) { // CIMA
 				Movements.Add (new Movement (from, new Vector2 (x - 1, y), Movement.Move.move));
-			}else if (matrix [x - 1, y] == 0) { // CIMA
+			}else if (matrix [x - 1, y] == enemyTreasure) { // CIMA
 				Movements.Add (new Movement (from, new Vector2 (x - 1, y), Movement.Move.win));
 			}
 		}
@@ -81,7 +81,7 @@ public class MovementCalculator {
 	}
 
 	public static int[,] MatrixCalculator(int[,] matrix, Movement Movement, string tag){
-		int[,] matrixResult = matrix;
+		int[,] matrixResult = (int[,]) matrix.Clone();
 
 		int player = -1;
 

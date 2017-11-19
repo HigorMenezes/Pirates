@@ -48,4 +48,16 @@ public class Movement {
 		}
 	}
 
+	public Movement clone(){
+
+		Movement movement = new Movement (from, to, moveType);
+
+		return movement;
+
+	}
+
+	public string toString(){
+		return "From: " + from + " To: " + to + " MOVE: " + moveType;
+	}
+
 }
