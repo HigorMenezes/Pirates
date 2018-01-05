@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class TreeGenerate {
 
-	public int maxDepth = 2;
+	public int maxDepth = 3;
 	private Nodo raiz = new Nodo();
 	string playerTag = "";
 	string enemyTag = "";
@@ -41,19 +41,18 @@ public class TreeGenerate {
 			foreach (Nodo nodo in father){
 
 				nodo.Children = calculateChildren (nodo);
-
 				children.AddRange (nodo.Children);
+
+				if (nodo.Children.Count == 0) {
+					nodo.Value = nodo.Table.utility(this.playerTag);
+				}
 			}
 			father.Clear ();
 			father.AddRange(children);
 			children.Clear ();
 		}
 		foreach (Nodo nodo in father) {
-			if (nodo.MaxMin.Equals (Nodo.MaxOrMin.max)) {
-				nodo.Value = nodo.Table.utility (this.playerTag);
-			} else {
-				nodo.Value = nodo.Table.utility (this.enemyTag);
-			}
+			nodo.Value = nodo.Table.utility (this.playerTag);
 			Debug.Log (nodo.Nome + " VALOR: " + nodo.Value);
 		}
 	}

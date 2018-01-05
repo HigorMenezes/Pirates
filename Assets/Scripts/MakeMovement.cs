@@ -21,10 +21,6 @@ public class MakeMovement : MonoBehaviour {
 		objectToRemove = null;
 	}
 
-	void Update () {
-		
-	}
-
 	void FixedUpdate (){
 		if (GameController.currentTurn.ToString().Equals ("Movement")) {
 			
